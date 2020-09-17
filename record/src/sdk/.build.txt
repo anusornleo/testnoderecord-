@@ -1,0 +1,6 @@
+[repoFolder:media_engine, branch:release/2.9.0.220, commit:bcc1e85983eb570b5f1ddc61312ec3463a571dbd]
+[repoFolder:media_sdk3, branch:release/2.9.0.220, commit:fb2a4093d2f1b3e2bc808564479b9430d3338b51]
+[repoFolder:audio_engine_private, branch:release/2.9.0.220, commit:b312cf7e3e97781d8000f6e9affd3fa11c428053]
+[repoFolder:video_engine_private, branch:release/2.9.0.220, commit:5b4c308b09475a0fe31ac5318c5bd853028f4d61]
+[repoFolder:media_sdk3_private, branch:release/2.9.0.220, commit:840e92f233ede71b9ec1bbcd435d1c051fcb8529]
+[repoFolder:ServerSDK-Video, branch:release/2.9.0.220, commit:03e943f991a4ff496e496e2824e14d24ffc29f19]
