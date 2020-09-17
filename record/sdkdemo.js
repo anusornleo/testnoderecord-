@@ -16,13 +16,13 @@ function startRecording() {
     rec.on("error", function (err, stat) {
         console.log(`err ${err} ${stat}`);
     });
-    rec.on("recordingStats", function(stats) {
+    rec.on("recordingStats", function (stats) {
         console.log(`recording stats ${JSON.stringify(stats)}`)
     })
-    rec.on("userleave", function(uid) {
+    rec.on("userleave", function (uid) {
         //rearrange layout when user leaves
         console.log(`userleave ${uid}`);
-        layout.regions = layout.regions.filter(function(region){
+        layout.regions = layout.regions.filter(function (region) {
             return region.uid !== uid
         })
         rec.setMixLayout(layout);
@@ -39,7 +39,7 @@ function startRecording() {
             "alpha": 1,
             "uid": uid
         }
-        switch(layout.regions.length) {
+        switch (layout.regions.length) {
             case 0:
                 region.x = 0;
                 region.y = 0;
@@ -62,11 +62,11 @@ function startRecording() {
         rec.setMixLayout(layout);
     });
     let storageDir = path.resolve(__dirname, `./output`);
-    
+
     //create output folder
-    fs.mkdir(storageDir, {recursive: true}, err => {
+    fs.mkdir(storageDir, { recursive: true }, err => {
         //join channel
-        rec.joinChannel(null, "agoratest", 0, "<YOUR APP ID>", storageDir);
+        rec.joinChannel(null, "test", 0, "4bdddbacc9f24b2584de36f55a9f75de", storageDir);
     })
     return rec;
 }
