@@ -52,7 +52,10 @@ class RecordManager{
                 sdk.setMixLayout(layout);
 
                 this.subscribeEvents(recorder);
+		console.log("============")
+		console.log("finish sub event")
                 sdk.joinChannel(key || null, channel, 0, appid, storagePath).then(() => {
+		    console.log("==============\n into join channel")
                     this.recorders[sid] = recorder;
                     console.log(`recorder started ${appid} ${channel} ${sid}`)
                     resolve(recorder);
@@ -143,7 +146,9 @@ class RecordManager{
     }
 
     onCleanup(sid) {
+	console.log("+++sid = "+sid);
         let recorder = this.recorders[sid];
+	console.log("+++Recorder = "+recorder)
         if(recorder) {
             let {sdk} = recorder;
             console.log(`releasing ${sid}`)
