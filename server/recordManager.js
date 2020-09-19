@@ -31,31 +31,41 @@ class RecordManager{
     }
 
     start(key, appid, channel) {
+        
+
+        let width = 1280
+        let height = 720
+    
         return new Promise((resolve, reject) => {
             const sid = uuidv4();
             this.initStorage(appid, channel, sid).then(storagePath => {
                 let sdk = new AgoraRecordingSDK();
 
+
                 let layout = {
-                    "canvasWidth": 640,
-                    "canvasHeight": 480,
-                    "backgroundColor": "#00ff00",
-                    "regions": []
+                    "canvasWidth": width,
+                    "canvasHeight": height,
+                    "isMixingEnabled":1,
+                    "backgroundColor": "#000000",
+                    "mixedVideoAudio":2,
+                    "regions": [],
+                
                 }
                 let recorder = {
                     appid: appid,
                     channel: channel,
                     sdk: sdk,
                     sid: sid,
-                    layout: layout
+                    layout: layout,
+                    getVideoFrame:1,
+                    enableH265Support:true,
+                    isVideoOnly:true,
+                    isAudioOnly:false
                 };
                 sdk.setMixLayout(layout);
 
                 this.subscribeEvents(recorder);
-		console.log("============")
-		console.log("finish sub event")
                 sdk.joinChannel(key || null, channel, 0, appid, storagePath).then(() => {
-		    console.log("==============\n into join channel")
                     this.recorders[sid] = recorder;
                     console.log(`recorder started ${appid} ${channel} ${sid}`)
                     resolve(recorder);
@@ -96,8 +106,8 @@ class RecordManager{
             let region = {
                 "x": 0,
                 "y": 0,
-                "width": 320,
-                "height": 240,
+                "width": 480,
+                "height": 640,
                 "zOrder": 1,
                 "alpha": 1,
                 "uid": uid
@@ -146,9 +156,7 @@ class RecordManager{
     }
 
     onCleanup(sid) {
-	console.log("+++sid = "+sid);
         let recorder = this.recorders[sid];
-	console.log("+++Recorder = "+recorder)
         if(recorder) {
             let {sdk} = recorder;
             console.log(`releasing ${sid}`)

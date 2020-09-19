@@ -3,8 +3,29 @@ const app = express()
 const port = 4000
 const RecordManager = require('./recordManager')
 const bodyParser = require('body-parser')
+const ffmpeg = require('fluent-ffmpeg');
+const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
 
 app.use(bodyParser.json());
+
+app.get('/', (req, res) => {
+    res.send("ok")
+})
+
+app.get('/decode', (req, res) => {
+    ffmpeg.setFfmpegPath(ffmpegInstaller.path);
+
+    ffmpeg('videos/video.mp4', { timeout: 432000 }).addOptions([
+        '-profile:v baseline',
+        '-level 3.0',
+        '-start_number 0',
+        '-hls_time 10',
+        '-hls_list_size 0',
+        '-f hls'
+    ]).output('videos/output.m3u8').on('end', () => {
+        console.log('end');
+    }).run();
+})
 
 app.post('/recorder/v1/start', (req, res, next) => {
     let { body } = req;
@@ -41,7 +62,7 @@ app.post('/recorder/v1/stop', (req, res, next) => {
     });
 })
 
-app.use( (err, req, res, next) => {
+app.use((err, req, res, next) => {
     console.error(err.stack)
     res.status(500).json({
         success: false,
@@ -49,4 +70,6 @@ app.use( (err, req, res, next) => {
     })
 })
 
-app.listen(port)
+app.listen(port, () => {
+    console.log(port)
+})
